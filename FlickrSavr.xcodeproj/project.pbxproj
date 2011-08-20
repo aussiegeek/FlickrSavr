@@ -1,0 +1,296 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		E7C4FB9613FF3B190003A727 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C4FB9513FF3B190003A727 /* Cocoa.framework */; };
+		E7C4FB9813FF3B190003A727 /* ScreenSaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7C4FB9713FF3B190003A727 /* ScreenSaver.framework */; };
+		E7C4FBA213FF3B190003A727 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = E7C4FBA013FF3B190003A727 /* InfoPlist.strings */; };
+		E7C4FBA513FF3B190003A727 /* FlickrSavrView.h in Headers */ = {isa = PBXBuildFile; fileRef = E7C4FBA413FF3B190003A727 /* FlickrSavrView.h */; };
+		E7C4FBA713FF3B190003A727 /* FlickrSavrView.m in Sources */ = {isa = PBXBuildFile; fileRef = E7C4FBA613FF3B190003A727 /* FlickrSavrView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		E7C4FB9213FF3B190003A727 /* FlickrSavr.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlickrSavr.saver; sourceTree = BUILT_PRODUCTS_DIR; };
+		E7C4FB9513FF3B190003A727 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		E7C4FB9713FF3B190003A727 /* ScreenSaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScreenSaver.framework; path = System/Library/Frameworks/ScreenSaver.framework; sourceTree = SDKROOT; };
+		E7C4FB9A13FF3B190003A727 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		E7C4FB9B13FF3B190003A727 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		E7C4FB9C13FF3B190003A727 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E7C4FB9F13FF3B190003A727 /* FlickrSavr-Info.plist */ = {isa = PBXFileReference; path = "FlickrSavr-Info.plist"; sourceTree = "<group>"; };
+		E7C4FBA113FF3B190003A727 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		E7C4FBA313FF3B190003A727 /* FlickrSavr-Prefix.pch */ = {isa = PBXFileReference; path = "FlickrSavr-Prefix.pch"; sourceTree = "<group>"; };
+		E7C4FBA413FF3B190003A727 /* FlickrSavrView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FlickrSavrView.h; sourceTree = "<group>"; };
+		E7C4FBA613FF3B190003A727 /* FlickrSavrView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FlickrSavrView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E7C4FB8D13FF3B190003A727 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E7C4FB9613FF3B190003A727 /* Cocoa.framework in Frameworks */,
+				E7C4FB9813FF3B190003A727 /* ScreenSaver.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		E7C4FB8513FF3B180003A727 = {
+			isa = PBXGroup;
+			children = (
+				E7C4FB9D13FF3B190003A727 /* FlickrSavr */,
+				E7C4FB9413FF3B190003A727 /* Frameworks */,
+				E7C4FB9313FF3B190003A727 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		E7C4FB9313FF3B190003A727 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E7C4FB9213FF3B190003A727 /* FlickrSavr.saver */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E7C4FB9413FF3B190003A727 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E7C4FB9513FF3B190003A727 /* Cocoa.framework */,
+				E7C4FB9713FF3B190003A727 /* ScreenSaver.framework */,
+				E7C4FB9913FF3B190003A727 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E7C4FB9913FF3B190003A727 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E7C4FB9A13FF3B190003A727 /* AppKit.framework */,
+				E7C4FB9B13FF3B190003A727 /* CoreData.framework */,
+				E7C4FB9C13FF3B190003A727 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		E7C4FB9D13FF3B190003A727 /* FlickrSavr */ = {
+			isa = PBXGroup;
+			children = (
+				E7C4FBA413FF3B190003A727 /* FlickrSavrView.h */,
+				E7C4FBA613FF3B190003A727 /* FlickrSavrView.m */,
+				E7C4FB9E13FF3B190003A727 /* Supporting Files */,
+			);
+			path = FlickrSavr;
+			sourceTree = "<group>";
+		};
+		E7C4FB9E13FF3B190003A727 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E7C4FB9F13FF3B190003A727 /* FlickrSavr-Info.plist */,
+				E7C4FBA013FF3B190003A727 /* InfoPlist.strings */,
+				E7C4FBA313FF3B190003A727 /* FlickrSavr-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		E7C4FB8E13FF3B190003A727 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E7C4FBA513FF3B190003A727 /* FlickrSavrView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		E7C4FB9113FF3B190003A727 /* FlickrSavr */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E7C4FBAA13FF3B190003A727 /* Build configuration list for PBXNativeTarget "FlickrSavr" */;
+			buildPhases = (
+				E7C4FB8C13FF3B190003A727 /* Sources */,
+				E7C4FB8D13FF3B190003A727 /* Frameworks */,
+				E7C4FB8E13FF3B190003A727 /* Headers */,
+				E7C4FB8F13FF3B190003A727 /* Resources */,
+				E7C4FB9013FF3B190003A727 /* Rez */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FlickrSavr;
+			productName = FlickrSavr;
+			productReference = E7C4FB9213FF3B190003A727 /* FlickrSavr.saver */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		E7C4FB8713FF3B190003A727 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = E7C4FB8A13FF3B190003A727 /* Build configuration list for PBXProject "FlickrSavr" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = E7C4FB8513FF3B180003A727;
+			productRefGroup = E7C4FB9313FF3B190003A727 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				E7C4FB9113FF3B190003A727 /* FlickrSavr */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E7C4FB8F13FF3B190003A727 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E7C4FBA213FF3B190003A727 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		E7C4FB9013FF3B190003A727 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		E7C4FB8C13FF3B190003A727 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E7C4FBA713FF3B190003A727 /* FlickrSavrView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		E7C4FBA013FF3B190003A727 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E7C4FBA113FF3B190003A727 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		E7C4FBA813FF3B190003A727 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		E7C4FBA913FF3B190003A727 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_ENABLE_OBJC_GC = supported;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		E7C4FBAB13FF3B190003A727 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FlickrSavr/FlickrSavr-Prefix.pch";
+				INFOPLIST_FILE = "FlickrSavr/FlickrSavr-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = saver;
+			};
+			name = Debug;
+		};
+		E7C4FBAC13FF3B190003A727 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FlickrSavr/FlickrSavr-Prefix.pch";
+				INFOPLIST_FILE = "FlickrSavr/FlickrSavr-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = saver;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		E7C4FB8A13FF3B190003A727 /* Build configuration list for PBXProject "FlickrSavr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E7C4FBA813FF3B190003A727 /* Debug */,
+				E7C4FBA913FF3B190003A727 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E7C4FBAA13FF3B190003A727 /* Build configuration list for PBXNativeTarget "FlickrSavr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E7C4FBAB13FF3B190003A727 /* Debug */,
+				E7C4FBAC13FF3B190003A727 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = E7C4FB8713FF3B190003A727 /* Project object */;
+}
