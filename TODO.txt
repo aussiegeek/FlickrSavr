@@ -1,0 +1,3 @@
+- memory management
+- data background rounded rect
+- dlog
