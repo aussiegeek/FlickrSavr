@@ -5,6 +5,7 @@
 
 @interface FlickrSavrView ()
 @property (strong) AFFlickrManager *flickrManager;
+- (CGRect)resizeImage:(CGImageRef)image toBounds:(CGRect)bounds;
 @end
 
 @implementation FlickrSavrView
@@ -40,20 +41,7 @@
     CGDataProviderRef buddyIconDataProvider = CGDataProviderCreateWithFilename([[currentPhoto buddyIconPath] cStringUsingEncoding:NSUTF8StringEncoding]);
     CGImageRef buddyImage = CGImageCreateWithJPEGDataProvider(buddyIconDataProvider, NULL, NO, kCGRenderingIntentDefault);
     
-    float hfactor = CGImageGetWidth(image) / rect.size.width;
-    float vfactor = CGImageGetHeight(image) / rect.size.height;
-    
-    float factor = MAX(hfactor, vfactor);
-    
-    // Divide the size by the greater of the vertical or horizontal shrinkage factor
-    float newWidth = CGImageGetWidth(image) / factor;
-    float newHeight = CGImageGetHeight(image) / factor;
-    
-    // Then figure out if you need to offset it to center vertically or horizontally
-    float leftOffset = (rect.size.width - newWidth) / 2;
-    float topOffset = (rect.size.height - newHeight) / 2;
-    
-    CGRect imageRect = CGRectMake(leftOffset, topOffset, newWidth, newHeight);
+    CGRect imageRect = [self resizeImage:image toBounds:rect];
     
     CGContextSetRGBFillColor(context, 0, 0, 0, 1);
     CGContextFillRect(context, rect);
@@ -81,6 +69,24 @@
     //CGSize titleSize = [title sizeWithAttributes:fontAttributes];
     [title drawAtPoint:titlePoint withAttributes:fontAttributes];
     
+}
+
+- (CGRect)resizeImage:(CGImageRef)image toBounds:(CGRect)bounds
+{
+    float hfactor = CGImageGetWidth(image) / bounds.size.width;
+    float vfactor = CGImageGetHeight(image) / bounds.size.height;
+    
+    float factor = MAX(hfactor, vfactor);
+    
+    // Divide the size by the greater of the vertical or horizontal shrinkage factor
+    float newWidth = CGImageGetWidth(image) / factor;
+    float newHeight = CGImageGetHeight(image) / factor;
+    
+    // Then figure out if you need to offset it to center vertically or horizontally
+    float leftOffset = (bounds.size.width - newWidth) / 2;
+    float topOffset = (bounds.size.height - newHeight) / 2;
+    
+    return CGRectMake(leftOffset, topOffset, newWidth, newHeight);
 }
 - (BOOL)hasConfigureSheet
 {
