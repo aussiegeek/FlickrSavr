@@ -6,7 +6,14 @@
 @end
 
 @implementation AFFlickrPhoto
-@synthesize photoAttributes = photoAttributes_;
+AF_SYNTHESIZE(photoAttributes);
+
+- (void)dealloc
+{
+    AF_RELEASE(photoAttributes);
+    
+    [super dealloc];
+}
 
 - (id)initWithDictionary:(NSDictionary *)dict
 {

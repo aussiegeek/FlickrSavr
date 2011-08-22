@@ -4,3 +4,6 @@
 [submodule "External/asi-http-request"]
 	path = External/asi-http-request
 	url = https://github.com/pokeb/asi-http-request.git
+[submodule "External/AFUtils"]
+	path = External/AFUtils
+	url = git@appfission.unfuddle.com:appfission/afutils.git

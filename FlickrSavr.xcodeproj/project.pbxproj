@@ -93,6 +93,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E7783DC114027121000A9FFB /* AFMacros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AFMacros.h; path = External/AFUtils/AFMacros.h; sourceTree = "<group>"; };
+		E7783DC314027121000A9FFB /* NSDictionary+NilKey.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+NilKey.h"; sourceTree = "<group>"; };
+		E7783DC414027121000A9FFB /* NSDictionary+NilKey.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+NilKey.m"; sourceTree = "<group>"; };
+		E7783DC514027121000A9FFB /* NSString+UUID.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
+		E7783DC614027121000A9FFB /* NSString+UUID.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
 		E7C4FB9213FF3B190003A727 /* FlickrSavr.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FlickrSavr.saver; sourceTree = BUILT_PRODUCTS_DIR; };
 		E7C4FB9513FF3B190003A727 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		E7C4FB9F13FF3B190003A727 /* FlickrSavr-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "FlickrSavr-Info.plist"; sourceTree = "<group>"; };
@@ -188,6 +193,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E7783DC214027121000A9FFB /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				E7783DC314027121000A9FFB /* NSDictionary+NilKey.h */,
+				E7783DC414027121000A9FFB /* NSDictionary+NilKey.m */,
+				E7783DC514027121000A9FFB /* NSString+UUID.h */,
+				E7783DC614027121000A9FFB /* NSString+UUID.m */,
+			);
+			name = Categories;
+			path = External/AFUtils/Categories;
+			sourceTree = "<group>";
+		};
 		E7C4FB8513FF3B180003A727 = {
 			isa = PBXGroup;
 			children = (
@@ -270,6 +287,8 @@
 		E7E2E78913FF881000C5EB37 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				E7783DC114027121000A9FFB /* AFMacros.h */,
+				E7783DC214027121000A9FFB /* Categories */,
 				E7E2E7E313FFBA7000C5EB37 /* ASIHttpRequest */,
 				E7E2E7A913FFA80900C5EB37 /* SBJSON */,
 			);

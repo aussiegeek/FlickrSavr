@@ -14,7 +14,14 @@
 @end
 
 @implementation AFFlickrManager
-@synthesize photos = photos_;
+AF_SYNTHESIZE(photos);
+
+- (void)dealloc
+{
+    AF_RELEASE(photos);
+    
+    [super dealloc];
+}
 
 - (id)init
 {
@@ -34,20 +41,19 @@
     ASIDownloadCache *cache = [[[ASIDownloadCache alloc] init] autorelease];
     [cache setStoragePath:NSTemporaryDirectory()];
     [cache setShouldRespectCacheControlHeaders:NO];
-    ASIHTTPRequest *request = [[ASIHTTPRequest alloc] initWithURL:interestingURL];
+    ASIHTTPRequest *request = [[[ASIHTTPRequest alloc] initWithURL:interestingURL] autorelease];
     [request setDownloadCache:cache];
     [request setCacheStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
     [request setSecondsToCache:60*60*24];
     [request setCachePolicy:ASIOnlyLoadIfNotCachedCachePolicy|ASIFallbackToCacheIfLoadFailsCachePolicy];
     [request setCompletionBlock:^{
-        SBJsonParser *jsonParser = [[SBJsonParser alloc] init];
+        SBJsonParser *jsonParser = [[[SBJsonParser alloc] init] autorelease];
         NSData *interestingJson = [request responseData];
-        NSLog(@"receved json %@", [request responseString]);
         NSDictionary *json= [jsonParser objectWithData:interestingJson];
         NSDictionary *jsonPhotos = [json objectForKey:@"photos"];
         NSArray *jsonPhoto = [jsonPhotos objectForKey:@"photo"];
         [jsonPhoto enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            AFFlickrPhoto *flickrPhoto = [[AFFlickrPhoto alloc] initWithDictionary:obj];
+            AFFlickrPhoto *flickrPhoto = [[[AFFlickrPhoto alloc] initWithDictionary:obj] autorelease];
             [flickrPhoto downloadPhotoWithCompletionBlock:^{
                 [self.photos addObject:flickrPhoto]; 
             }];

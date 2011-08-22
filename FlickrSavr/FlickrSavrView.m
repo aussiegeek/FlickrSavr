@@ -11,15 +11,19 @@
 @end
 
 @implementation FlickrSavrView
-@synthesize flickrManager = flickrManager_;
+AF_SYNTHESIZE(flickrManager);
 
-
+- (void)dealloc
+{
+    AF_RELEASE(flickrManager);
+    
+    [super dealloc];
+}
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
     self = [super initWithFrame:frame isPreview:isPreview];
     if (self) {
         [self setAnimationTimeInterval:10];
-        NSLog(@"initial frame %@", NSStringFromRect(frame));
         self.flickrManager = [[AFFlickrManager alloc] init];
     }
     return self;
@@ -32,22 +36,35 @@
 
 -(void)drawRect:(NSRect)rect
 {
-    AFFlickrPhoto *currentPhoto = [self.flickrManager randomPhoto];
-    NSLog(@"photo attributes: %@", [self.flickrManager description]);
-    NSLog(@"wanting to load photo: %@", [currentPhoto photoPath]);
-    CGContextRef context = [[NSGraphicsContext currentContext] 
-                                    graphicsPort];
-    
-    CGDataProviderRef imageDataProvider = CGDataProviderCreateWithFilename([[currentPhoto photoPath] cStringUsingEncoding:NSUTF8StringEncoding]);
-    CGImageRef image = CGImageCreateWithJPEGDataProvider(imageDataProvider, NULL, NO, kCGRenderingIntentDefault);
-    
-    CGRect imageRect = [self resizeImage:image toBounds:rect];
-    
+    // make sure we at least draw the screen black
+    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
     CGContextSetRGBFillColor(context, 0, 0, 0, 1);
     CGContextFillRect(context, rect);
-    CGContextDrawImage(context, imageRect, image);
+
+    AFFlickrPhoto *currentPhoto = [self.flickrManager randomPhoto];
+    if(!currentPhoto) {
+        return;
+    }
     
-    [self drawPhotoInfo:currentPhoto];
+    
+    CGDataProviderRef imageDataProvider = CGDataProviderCreateWithFilename([[currentPhoto photoPath] cStringUsingEncoding:NSUTF8StringEncoding]);
+    
+    if(!imageDataProvider) {
+        return;   
+    }
+    
+    CGImageRef image = CGImageCreateWithJPEGDataProvider(imageDataProvider, NULL, NO, kCGRenderingIntentDefault);
+
+    if(image) {
+        CGRect imageRect = [self resizeImage:image toBounds:rect];
+        
+        CGContextDrawImage(context, imageRect, image);
+        
+        [self drawPhotoInfo:currentPhoto];
+        CFRelease(image);
+    }
+    
+    CFRelease(imageDataProvider);
 }
 
 - (void)drawPhotoInfo:(AFFlickrPhoto *)photo
@@ -73,15 +90,7 @@
     NSString *title = [photo title];
     CGSize titleSize = [title sizeWithAttributes:fontAttributes];
 
-
-    // draw rounded rect
-    CGRect ownerRect = CGRectMake(ownerPoint.x, titlePoint.y, ownerPoint.x + ownerSize.width, ownerPoint.y+ ownerSize.height);
-    CGRect titleRect = CGRectMake(titlePoint.x, titlePoint.y, titlePoint.x + titleSize.width, titlePoint.y + titleSize.height);
-    CGRect stringRect = CGRectUnion(ownerRect, titleRect);
-    //CGRect roundedRect = CGRectUnion(buddyIconRect, stringRect);
     CGRect roundedRect = CGRectMake(basePoint.x, basePoint.y, ownerPoint.x + MAX(ownerSize.width, titleSize.width), basePoint.y + buddyIconRect.size.height);
-    
-    NSLog(@"\nowner %@\ntitle %@\nstring %@\nrounded %@", NSStringFromRect(ownerRect), NSStringFromRect(titleRect), NSStringFromRect(stringRect), NSStringFromRect(roundedRect));
     
     CGColorRef color = CGColorCreateGenericRGB(0.2, 0.2, 0.2, 0.5);
     [self drawRoundedRect:roundedRect radius:5 color:color inset:5];
@@ -89,6 +98,10 @@
     // now we have calculated text sizes write the text out
     [owner drawAtPoint:ownerPoint withAttributes:fontAttributes];
     [title drawAtPoint:titlePoint withAttributes:fontAttributes];
+    
+    CFRelease(buddyIconDataProvider);
+    CFRelease(buddyImage);
+    CFRelease(color);
 
 }
 
