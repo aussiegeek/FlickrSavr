@@ -51,9 +51,11 @@ AF_SYNTHESIZE(photoAttributes);
 {
     NSString *fileName = [self photoPath];
     NSFileManager *fileManager = [NSFileManager defaultManager];
-    if(![fileManager fileExistsAtPath:fileName]) {
-        NSLog(@"not found, downloading... %@", [self url]);
-        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[self url]];
+    if([fileManager fileExistsAtPath:fileName]) {
+        // file already exists, so just run completion block
+        completionBlock();
+    } else {
+        __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[self url]];
         [request setDownloadDestinationPath:fileName];
         [request setCompletionBlock:^{
             if(![request error]) {
@@ -63,8 +65,6 @@ AF_SYNTHESIZE(photoAttributes);
         [request startAsynchronous];
     };
     
-    // file already exists, so just run completion block
-    completionBlock();
     
     NSString *iconFileName = [self buddyIconPath];
     if(![fileManager fileExistsAtPath:iconFileName]) {
