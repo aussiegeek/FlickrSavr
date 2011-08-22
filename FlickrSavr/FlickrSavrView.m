@@ -6,10 +6,13 @@
 @interface FlickrSavrView ()
 @property (strong) AFFlickrManager *flickrManager;
 - (CGRect)resizeImage:(CGImageRef)image toBounds:(CGRect)bounds;
+- (void)drawPhotoInfo:(AFFlickrPhoto *)photo;
+- (void)drawRoundedRect:(CGRect)rect radius:(CGFloat)radius color:(CGColorRef)color inset:(CGFloat)inset;
 @end
 
 @implementation FlickrSavrView
 @synthesize flickrManager = flickrManager_;
+
 
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
@@ -38,37 +41,78 @@
     CGDataProviderRef imageDataProvider = CGDataProviderCreateWithFilename([[currentPhoto photoPath] cStringUsingEncoding:NSUTF8StringEncoding]);
     CGImageRef image = CGImageCreateWithJPEGDataProvider(imageDataProvider, NULL, NO, kCGRenderingIntentDefault);
     
-    CGDataProviderRef buddyIconDataProvider = CGDataProviderCreateWithFilename([[currentPhoto buddyIconPath] cStringUsingEncoding:NSUTF8StringEncoding]);
-    CGImageRef buddyImage = CGImageCreateWithJPEGDataProvider(buddyIconDataProvider, NULL, NO, kCGRenderingIntentDefault);
-    
     CGRect imageRect = [self resizeImage:image toBounds:rect];
     
     CGContextSetRGBFillColor(context, 0, 0, 0, 1);
     CGContextFillRect(context, rect);
     CGContextDrawImage(context, imageRect, image);
     
+    [self drawPhotoInfo:currentPhoto];
+}
+
+- (void)drawPhotoInfo:(AFFlickrPhoto *)photo
+{
     CGPoint basePoint = CGPointMake(10, 10);
+    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
 
     // draw buddy icon
+    CGDataProviderRef buddyIconDataProvider = CGDataProviderCreateWithFilename([[photo buddyIconPath] cStringUsingEncoding:NSUTF8StringEncoding]);
+    CGImageRef buddyImage = CGImageCreateWithJPEGDataProvider(buddyIconDataProvider, NULL, NO, kCGRenderingIntentDefault);
+
     CGRect buddyIconRect = CGRectMake(basePoint.x, basePoint.y, CGImageGetWidth(buddyImage), CGImageGetHeight(buddyImage));
     CGContextDrawImage(context, buddyIconRect, buddyImage);
     
-    NSPoint baseTextPoint = CGPointMake(basePoint.x + buddyIconRect.size.width + 5, basePoint.y);
+    NSPoint ownerPoint = CGPointMake(basePoint.x + buddyIconRect.size.width + 5, basePoint.y);
     
-    //draw from bottom up
     NSDictionary *fontAttributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSColor whiteColor], NSForegroundColorAttributeName,
                                     nil];
-    //show description
-    NSString *owner = [currentPhoto ownerName];
+    NSString *owner = [photo ownerName];
     CGSize ownerSize = [owner sizeWithAttributes:fontAttributes];
-    [owner drawAtPoint:baseTextPoint withAttributes:fontAttributes];
-
-    //show title
-    CGPoint titlePoint = CGPointMake(baseTextPoint.x, baseTextPoint.y + ownerSize.height + 5);
-    NSString *title = [currentPhoto title];
-    //CGSize titleSize = [title sizeWithAttributes:fontAttributes];
-    [title drawAtPoint:titlePoint withAttributes:fontAttributes];
     
+    CGPoint titlePoint = CGPointMake(ownerPoint.x, ownerPoint.y + ownerSize.height + 5);
+    NSString *title = [photo title];
+    CGSize titleSize = [title sizeWithAttributes:fontAttributes];
+
+
+    // draw rounded rect
+    CGRect ownerRect = CGRectMake(ownerPoint.x, titlePoint.y, ownerPoint.x + ownerSize.width, ownerPoint.y+ ownerSize.height);
+    CGRect titleRect = CGRectMake(titlePoint.x, titlePoint.y, titlePoint.x + titleSize.width, titlePoint.y + titleSize.height);
+    CGRect stringRect = CGRectUnion(ownerRect, titleRect);
+    //CGRect roundedRect = CGRectUnion(buddyIconRect, stringRect);
+    CGRect roundedRect = CGRectMake(basePoint.x, basePoint.y, ownerPoint.x + MAX(ownerSize.width, titleSize.width), basePoint.y + buddyIconRect.size.height);
+    
+    NSLog(@"\nowner %@\ntitle %@\nstring %@\nrounded %@", NSStringFromRect(ownerRect), NSStringFromRect(titleRect), NSStringFromRect(stringRect), NSStringFromRect(roundedRect));
+    
+    CGColorRef color = CGColorCreateGenericRGB(0.2, 0.2, 0.2, 0.5);
+    [self drawRoundedRect:roundedRect radius:5 color:color inset:5];
+    
+    // now we have calculated text sizes write the text out
+    [owner drawAtPoint:ownerPoint withAttributes:fontAttributes];
+    [title drawAtPoint:titlePoint withAttributes:fontAttributes];
+
+}
+
+- (void)drawRoundedRect:(CGRect)rect radius:(CGFloat)radius color:(CGColorRef)color inset:(CGFloat)inset
+{
+    CGRect insetRect = CGRectInset(rect, 0 - inset, 0 - inset);
+    CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+    CGContextSetFillColorWithColor(context, color);
+    
+    CGContextMoveToPoint(context, insetRect.origin.x, insetRect.origin.y + radius);
+    CGContextAddLineToPoint(context, insetRect.origin.x, insetRect.origin.y + insetRect.size.height - radius);
+    CGContextAddArc(context, insetRect.origin.x + radius, insetRect.origin.y + insetRect.size.height - radius, 
+                    radius, M_PI, M_PI / 2, 1); //STS fixed
+    CGContextAddLineToPoint(context, insetRect.origin.x + insetRect.size.width - radius, 
+                            insetRect.origin.y + insetRect.size.height);
+    CGContextAddArc(context, insetRect.origin.x + insetRect.size.width - radius, 
+                    insetRect.origin.y + insetRect.size.height - radius, radius, M_PI / 2, 0.0f, 1);
+    CGContextAddLineToPoint(context, insetRect.origin.x + insetRect.size.width, insetRect.origin.y + radius);
+    CGContextAddArc(context, insetRect.origin.x + insetRect.size.width - radius, insetRect.origin.y + radius, 
+                    radius, 0.0f, -M_PI / 2, 1);
+    CGContextAddLineToPoint(context, insetRect.origin.x + radius, insetRect.origin.y);
+    CGContextAddArc(context, insetRect.origin.x + radius, insetRect.origin.y + radius, radius, 
+                    -M_PI / 2, M_PI, 1);
+    CGContextFillPath(context);
 }
 
 - (CGRect)resizeImage:(CGImageRef)image toBounds:(CGRect)bounds
