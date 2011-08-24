@@ -21,9 +21,9 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>0.9</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2011 __MyCompanyName__. All rights reserved.</string>
+	<string>Copyright © 2011 App Fission. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
 	<string>FlickrSavrView</string>
 </dict>

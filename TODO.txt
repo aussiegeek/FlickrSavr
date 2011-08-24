@@ -1,0 +1,1 @@
+- Hide photo details in preview window
