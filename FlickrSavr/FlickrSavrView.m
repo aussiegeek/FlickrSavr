@@ -5,6 +5,7 @@
 
 @interface FlickrSavrView ()
 @property (strong) AFFlickrManager *flickrManager;
+@property BOOL isPreview;
 - (CGRect)resizeImage:(CGImageRef)image toBounds:(CGRect)bounds;
 - (void)drawPhotoInfo:(AFFlickrPhoto *)photo;
 - (void)drawRoundedRect:(CGRect)rect radius:(CGFloat)radius color:(CGColorRef)color inset:(CGFloat)inset;
@@ -12,6 +13,7 @@
 
 @implementation FlickrSavrView
 AF_SYNTHESIZE(flickrManager);
+AF_SYNTHESIZE(isPreview);
 
 - (void)dealloc
 {
@@ -25,6 +27,7 @@ AF_SYNTHESIZE(flickrManager);
     if (self) {
         [self setAnimationTimeInterval:10];
         self.flickrManager = [[AFFlickrManager alloc] init];
+        self.isPreview = isPreview;
     }
     return self;
 }
@@ -60,7 +63,9 @@ AF_SYNTHESIZE(flickrManager);
         
         CGContextDrawImage(context, imageRect, image);
         
-        [self drawPhotoInfo:currentPhoto];
+        if(!self.isPreview) {
+            [self drawPhotoInfo:currentPhoto];
+        }
         CFRelease(image);
     }
     
