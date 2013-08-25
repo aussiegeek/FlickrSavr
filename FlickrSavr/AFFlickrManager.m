@@ -1,5 +1,4 @@
 #import "AFFlickrManager.h"
-#import "SBJson.h"
 #import "AFFlickrPhoto.h"
 #include <stdlib.h>
 #import "ASIHTTPRequest.h"
@@ -47,9 +46,8 @@ AF_SYNTHESIZE(photos);
     [request setSecondsToCache:60*60*24];
     [request setCachePolicy:ASIOnlyLoadIfNotCachedCachePolicy|ASIFallbackToCacheIfLoadFailsCachePolicy];
     [request setCompletionBlock:^{
-        SBJsonParser *jsonParser = [[[SBJsonParser alloc] init] autorelease];
         NSData *interestingJson = [request responseData];
-        NSDictionary *json= [jsonParser objectWithData:interestingJson];
+        NSDictionary *json=        [NSJSONSerialization JSONObjectWithData:interestingJson options:0 error:nil];
         NSDictionary *jsonPhotos = [json objectForKey:@"photos"];
         NSArray *jsonPhoto = [jsonPhotos objectForKey:@"photo"];
         [jsonPhoto enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
