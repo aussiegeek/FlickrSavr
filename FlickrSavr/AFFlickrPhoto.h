@@ -1,11 +1,10 @@
 #import <Foundation/Foundation.h>
-#import "ASIHTTPRequest.h"
 
 @interface AFFlickrPhoto : NSObject
 - (id)initWithDictionary:(NSDictionary *)dict;
 - (NSURL *)url;
 - (NSString *)title;
-- (void)downloadPhotoWithCompletionBlock:(ASIBasicBlock)completionBlock;
+- (void)downloadPhotoWithCompletionBlock:(void(^)())block;
 - (NSString *)photoPath;
 - (NSString *)ownerName;
 - (NSURL *)buddyIconURL;

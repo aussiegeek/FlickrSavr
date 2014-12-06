@@ -15,12 +15,6 @@
 AF_SYNTHESIZE(flickrManager);
 AF_SYNTHESIZE(isPreview);
 
-- (void)dealloc
-{
-    AF_RELEASE(flickrManager);
-    
-    [super dealloc];
-}
 - (id)initWithFrame:(NSRect)frame isPreview:(BOOL)isPreview
 {
     self = [super initWithFrame:frame isPreview:isPreview];

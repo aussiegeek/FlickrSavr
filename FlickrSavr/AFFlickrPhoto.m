@@ -1,5 +1,4 @@
 #import "AFFlickrPhoto.h"
-#import "ASIHTTPRequest.h"
 
 @interface AFFlickrPhoto ()
 @property (strong) NSMutableDictionary *photoAttributes;
@@ -7,13 +6,6 @@
 
 @implementation AFFlickrPhoto
 AF_SYNTHESIZE(photoAttributes);
-
-- (void)dealloc
-{
-    AF_RELEASE(photoAttributes);
-    
-    [super dealloc];
-}
 
 - (id)initWithDictionary:(NSDictionary *)dict
 {
@@ -26,7 +18,7 @@ AF_SYNTHESIZE(photoAttributes);
 
 - (NSURL *)url
 {
-    NSString *urlString = [NSString stringWithFormat:@"http://farm%@.static.flickr.com/%@/%@_%@_b.jpg", 
+    NSString *urlString = [NSString stringWithFormat:@"https://farm%@.static.flickr.com/%@/%@_%@_b.jpg",
                            [self.photoAttributes objectForKey:@"farm"],
                            [self.photoAttributes objectForKey:@"server"],
                            [self.photoAttributes objectForKey:@"id"],
@@ -41,13 +33,13 @@ AF_SYNTHESIZE(photoAttributes);
 
 - (NSString *)photoPath
 {
-    return [NSString stringWithFormat:@"/%@_%@_b.jpg", 
+    return [NSString stringWithFormat:@"%@/%@_%@_b.jpg",
             NSTemporaryDirectory(),
             [self.photoAttributes objectForKey:@"id"],
             [self.photoAttributes objectForKey:@"secret"]];
 }
 
-- (void)downloadPhotoWithCompletionBlock:(ASIBasicBlock)completionBlock
+- (void)downloadPhotoWithCompletionBlock:(void(^)())completionBlock
 {
     NSString *fileName = [self photoPath];
     NSFileManager *fileManager = [NSFileManager defaultManager];
@@ -55,22 +47,32 @@ AF_SYNTHESIZE(photoAttributes);
         // file already exists, so just run completion block
         completionBlock();
     } else {
-        __block ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[self url]];
-        [request setDownloadDestinationPath:fileName];
-        [request setCompletionBlock:^{
-            if(![request error]) {
-                completionBlock();
-            }
-        }];
-        [request startAsynchronous];
+        NSError        *error = nil;
+        NSURLResponse  *response = nil;
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[self url]] returningResponse:&response error:&error];
+        if(error) {
+            NSLog(@"Error fetching photo: %@", error);
+        } else {
+            NSLog(@"Saving image to %@", fileName);
+            [responseData writeToFile:fileName atomically:YES];
+            completionBlock();
+        }
     };
     
     
     NSString *iconFileName = [self buddyIconPath];
     if(![fileManager fileExistsAtPath:iconFileName]) {
-        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[self buddyIconURL]];
-        [request setDownloadDestinationPath:iconFileName];
-        [request startAsynchronous];
+        NSError        *error = nil;
+        NSURLResponse  *response = nil;
+        NSLog(@"Fetching buddy icon %@", [self buddyIconURL]);
+        NSData *responseData = [NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[self buddyIconURL]] returningResponse:&response error:&error];
+        if(error){
+            NSLog(@"Error fetching buddy icon: %@", error);
+        } else {
+            NSLog(@"Saving buddy icon to %@", [self buddyIconPath]);
+            [responseData writeToFile:[self buddyIconPath] atomically:YES];
+        }
+        
     }
 }
 
@@ -85,7 +87,7 @@ AF_SYNTHESIZE(photoAttributes);
         return nil;
     }
     
-    NSString *iconURLString = [NSString stringWithFormat:@"http://farm%@.static.flickr.com/%@/buddyicons/%@.jpg",
+    NSString *iconURLString = [NSString stringWithFormat:@"https://farm%@.static.flickr.com/%@/buddyicons/%@.jpg",
                                [self.photoAttributes objectForKey:@"iconfarm"],
                                [self.photoAttributes objectForKey:@"iconserver"],
                                [self.photoAttributes objectForKey:@"owner"]
@@ -95,7 +97,7 @@ AF_SYNTHESIZE(photoAttributes);
 
 - (NSString *)buddyIconPath
 {
-    return [NSString stringWithFormat:@"%@/%@.jpg", 
+    return [NSString stringWithFormat:@"%@/%@.jpg",
             NSTemporaryDirectory(),
             [self.photoAttributes objectForKey:@"owner"]];
 }
